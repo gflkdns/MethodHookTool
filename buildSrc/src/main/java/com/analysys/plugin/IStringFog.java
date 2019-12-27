@@ -1,0 +1,54 @@
+/*
+ * Copyright (C) 2017, Megatron King
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.analysys.plugin;
+
+/**
+ * @Copyright 2019 analysys Inc. All rights reserved.
+ * @Description: 字符串加解密
+ * @Version: 1.0
+ * @Create: 2019-11-13 11:19:54
+ * @author: miqt
+ * @mail: miqingtang@analysys.com.cn
+ */
+public interface IStringFog {
+
+    /**
+     * Encrypt the data by the special key.
+     *
+     * @param data The original data.
+     * @param key Encrypt key.
+     * @return The encrypted data.
+     */
+    String encrypt(String data, String key);
+
+    /**
+     * Decrypt the data to origin by the special key.
+     *
+     * @param data The encrypted data.
+     * @param key Encrypt key.
+     * @return The original data.
+     */
+    String decrypt(String data, String key);
+
+    /**
+     * Whether the encrypted string length is over 65535.
+     *
+     * @param data The original data.
+     * @param key Encrypt key.
+     * @return Ignore this value if the encrypted string is overflow 65535.
+     */
+    boolean overflow(String data, String key);
+
+}

@@ -1,0 +1,76 @@
+apply plugin: 'maven'
+
+
+def maven_version = 1.2
+def maven_groupId = 'com.miqt.plugin.tools'
+
+//下面的version和group必须有，gradle打包的pom文件依赖这个版本号和group
+version = maven_version
+group = maven_groupId
+
+def maven_artifactId = project.name
+if (project.name.equals("pluginSrc")) {
+    maven_artifactId = "pluginSrc"
+} else if (project.name.equals("pluginlib")) {
+    maven_artifactId = "pluginlib"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            repository(url: uri('../../repo'))
+
+            pom.project {
+                name maven_artifactId
+                groupId maven_groupId
+                artifactId maven_artifactId
+                version maven_version
+                packaging 'aar'
+            }
+        }
+    }
+}
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+//                authentication(userName: maven_username, password: maven_userpassword)
+//            }
+//
+//
+//            pom.project {
+//                name maven_artifactId
+//                groupId maven_groupId
+//                artifactId maven_artifactId
+//                version maven_version
+//                packaging 'aar'
+//                url 'https://github.com/analysys/ans-android-sdk'
+//                description maven_artifactId
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        name 'analysys'
+//                        email 'analysys@analysys.com.cn'
+//                        url 'https://ark.analysys.cn'
+//                    }
+//                }
+//
+//                scm {
+//                    connection 'https://github.com/analysys/ans-android-sdk'
+//                    developerConnection 'https://github.com/analysys/ans-android-sdk'
+//                    url 'https://github.com/analysys/ans-android-sdk'
+//                }
+//            }
+//        }
+//
+//
+//    }
+//}

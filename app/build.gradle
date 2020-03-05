@@ -1,11 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'analysys'
-methodtimer {}
-stringmix {
-    key="123"
-    enable = true
-    impl = "com.ananysus.fdf"
-}
+apply plugin: 'miqt.plugin.tools'
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.0'
@@ -32,4 +28,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    implementation 'com.miqt.plugin.tools:pluginlib:1.2'
 }
+

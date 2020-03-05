@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.miqt.pluginlib.annotation.PrintTime;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @PrintTime
     public void onClick(View view) {
         String text = "你好！";
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();

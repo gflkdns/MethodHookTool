@@ -1,2 +1,4 @@
-include ':app'
-rootProject.name='plugin'
+include ':app', ':pluginSrc', ':pluginlib'
+
+project(':pluginSrc').projectDir = new File(settingsDir, "./plugin_tools/pluginSrc")
+project(':pluginlib').projectDir = new File(settingsDir, "./plugin_tools/pluginlib")

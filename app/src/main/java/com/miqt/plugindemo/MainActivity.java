@@ -2,7 +2,6 @@ package com.miqt.plugindemo;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +17,21 @@ public class MainActivity extends AppCompatActivity {
 
     @PrintTime
     public void onClick(View view) {
+        new Thread() {
+            @Override
+            public void run() {
+                mmm();
+            }
+        }.start();
+    }
+
+    @PrintTime
+    private void mmm() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String text = "你好！";
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

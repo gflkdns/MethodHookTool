@@ -53,7 +53,7 @@ public class MethodTimerVisitor extends ClassVisitor {
             protected void onMethodEnter() {
                 if (isInject()) {
                     mv.visitLdcInsn(getName(name));
-                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/analysys/plugin/TimePrint", "start", "(Ljava/lang/String;)V", false);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/miqt/pluginlib/tools/TimePrint", "start", "(Ljava/lang/String;)V", false);
                 }
             }
 
@@ -67,7 +67,7 @@ public class MethodTimerVisitor extends ClassVisitor {
                         type = type.concat(",");
                     }
                 }
-                name = classname.concat(".").concat(name).concat("(").concat(type).concat(") ↑ ").concat(returnType.getClassName());
+                name = classname.concat(".").concat(name).concat("(").concat(type).concat(") type:").concat(returnType.getClassName());
                 return name;
             }
 
@@ -79,7 +79,7 @@ public class MethodTimerVisitor extends ClassVisitor {
             protected void onMethodExit(int opcode) {
                 if (isInject()) {
                     mv.visitLdcInsn(getName(name));
-                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/analysys/plugin/TimePrint", "end", "(Ljava/lang/String;)V", false);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/miqt/pluginlib/tools/TimePrint", "end", "(Ljava/lang/String;)V", false);
                 }
             }
         };

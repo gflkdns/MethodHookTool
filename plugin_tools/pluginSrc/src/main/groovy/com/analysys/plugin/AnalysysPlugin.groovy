@@ -21,7 +21,7 @@ class AnalysysPlugin implements Plugin<Project> {
         }
 
         android.registerTransform(new MethodTimerTransform(project, islib))
-      //  android.registerTransform(new StringMixTransform(project, islib))
+        //  android.registerTransform(new StringMixTransform(project, islib))
     }
 
 

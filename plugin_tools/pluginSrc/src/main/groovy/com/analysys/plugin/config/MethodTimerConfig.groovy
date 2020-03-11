@@ -1,5 +1,7 @@
 package com.analysys.plugin.config
 
+import org.json.simple.JSONObject
+
 class MethodTimerConfig {
     //是否启用
     boolean enable = true
@@ -17,4 +19,28 @@ class MethodTimerConfig {
     List<String> methodRegexs = []
     //是否用插桩后的jar包替换项目中的jar包
     boolean replaceJar = false
+
+
+    @Override
+    public String toString() {
+        return toJson().toString()
+    }
+
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.putOpt("enable", enable);
+            jsonObject.putOpt("all", all);
+            jsonObject.putOpt("log", log);
+            jsonObject.putOpt("mapping", mapping);
+            jsonObject.putOpt("jarRegexs", jarRegexs);
+            jsonObject.putOpt("classRegexs", classRegexs);
+            jsonObject.putOpt("methodRegexs", methodRegexs);
+            jsonObject.putOpt("replaceJar", replaceJar);
+        } catch (Throwable e) {
+            //JSONException
+        }
+        return jsonObject;
+    }
+
 }

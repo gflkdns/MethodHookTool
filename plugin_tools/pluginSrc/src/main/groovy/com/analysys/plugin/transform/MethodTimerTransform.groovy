@@ -77,7 +77,6 @@ class MethodTimerTransform extends Transform {
             def jarName = jarInput.name
 
             def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
-            -----
             def file = jarInput.file
             mtc.jarRegexs.each { def regexStr ->
                 def isM = Pattern.matches(regexStr, jarName)

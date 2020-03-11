@@ -6,6 +6,8 @@ methodtimer {
     all = true
     log = true
     jarRegexs = [".*"]//所有jar包
+    classRegexs = [".*"]//所有class
+    methodRegexs = [".*"]//所有method
 }
 android {
     compileSdkVersion 29

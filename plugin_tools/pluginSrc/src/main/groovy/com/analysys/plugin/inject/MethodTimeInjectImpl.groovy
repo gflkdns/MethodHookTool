@@ -76,7 +76,6 @@ public class MethodTimeInjectImpl implements Inject {
             byte[] sourceClassBytes = IOUtils.toByteArray(inputStream)
             if (isInjectImpl(entryName)) {
                 modifiedClassBytes = injectClass(sourceClassBytes)
-                println("jar " + entryName + "-----")
             }
             if (modifiedClassBytes == null) {
                 jarOutputStream.write(sourceClassBytes)

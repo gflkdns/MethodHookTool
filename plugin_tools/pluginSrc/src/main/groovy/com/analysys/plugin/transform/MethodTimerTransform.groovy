@@ -9,9 +9,12 @@ import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
+import java.util.regex.Pattern
+
 class MethodTimerTransform extends Transform {
     Project project
     boolean islib;
+    MethodTimerConfig mtc
 
     MethodTimerTransform(Project project, boolean islib) {
         this.project = project
@@ -51,7 +54,7 @@ class MethodTimerTransform extends Transform {
         println '//================================================//'
         println '//===============Method Timer start===============//'
         println '//================================================//'
-        final MethodTimerConfig mtc = project.methodtimer
+        mtc = project.methodtimer
         println("[Config]:" + mtc.toString())
         if (!mtc.enable) {
             return
@@ -60,14 +63,8 @@ class MethodTimerTransform extends Transform {
         impl.setConfig(mtc)
 
         inputs.each { TransformInput input ->
-
-            println 'class inject start.'
             eachClass(input, impl, outputProvider)
-            println 'class inject finish.'
-
-            println 'jar inject start.'
             eachJar(context, input, impl, outputProvider)
-            println 'jar inject finish.'
         }
 
         println '//================================================//'
@@ -80,13 +77,24 @@ class MethodTimerTransform extends Transform {
             def jarName = jarInput.name
 
             def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
+            -----
+            def file = jarInput.file
+            mtc.jarRegexs.each { def regexStr ->
+                def isM = Pattern.matches(regexStr, jarName)
+                if (isM) {
+                    if (mtc.log) {
+                        println("[jar][regex]:$regexStr $jarName is injected.")
+                    }
+                    file = impl.injectJar(jarInput.file, context.getTemporaryDir())
+                    if (mtc.replaceJar && file != null) {
+                        jarInput.file.delete()
+                        FileUtils.copyFile(file, jarInput.file)
+                    }
+                } else if (mtc.log) {
+                    println("[jar][regex]:$regexStr $jarName not mc.")
+                }
+            }
 
-            File file = impl.injectJar(jarInput.file, context.getTemporaryDir())
-
-//            if (file != null) {
-//                jarInput.file.delete()
-//                FileUtils.copyFile(file, jarInput.file)
-//            }
 
             if (jarName.endsWith(".jar")) {
                 jarName = jarName.substring(0, jarName.length() - 4)
@@ -113,13 +121,11 @@ class MethodTimerTransform extends Transform {
                         fos.write(code)
                         fos.close()
 
-                        println file.name + ' is injected.'
-                    } else {
-                        println file.name + ' not inject.'
+                        println "[class]" + file.name + ' is injected.'
                     }
                 }
             } else {
-                println directoryInput.file.name + ' not inject.'
+                println "[directory]" + directoryInput.file.name + ' not inject.'
             }
 
 

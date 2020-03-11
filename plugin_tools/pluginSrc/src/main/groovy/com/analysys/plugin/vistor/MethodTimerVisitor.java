@@ -73,7 +73,7 @@ public class MethodTimerVisitor extends ClassVisitor {
             }
 
             private boolean isInject() {
-                return config.enable && (config.all || inject);
+                return config.isEnable() && (config.isAll() || inject);
             }
 
             @Override

@@ -4,7 +4,8 @@ apply plugin: 'miqt.plugin.tools'
 methodtimer {
     enable = true
     all = true
-    printLog = false
+    log = true
+    jarRegexs = [".*"]//所有jar包
 }
 android {
     compileSdkVersion 29

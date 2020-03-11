@@ -15,7 +15,7 @@ import org.objectweb.asm.ClassWriter
 
 import static org.objectweb.asm.ClassReader.EXPAND_FRAMES
 
-//import com.analysys.plugin.tools.MappingPrinter
+//import MappingPrinter
 
 public class StringMixTransform extends Transform {
     Project project

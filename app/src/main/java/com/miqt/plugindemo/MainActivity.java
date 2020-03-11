@@ -5,8 +5,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.miqt.pluginlib.annotation.PrintTime;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @PrintTime
     public void onClick(View view) {
         new Thread() {
             @Override
@@ -25,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
-    @PrintTime
     private void mmm() {
         try {
             Thread.sleep(3000);

@@ -1,6 +1,8 @@
 package com.analysys.plugin.vistor;
 
 
+import com.analysys.plugin.config.MethodTimerConfig;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -18,13 +20,12 @@ import org.objectweb.asm.commons.AdviceAdapter;
  */
 public class MethodTimerVisitor extends ClassVisitor {
 
-    boolean enable, costAll;
     String classname;
+    MethodTimerConfig config;
 
-    public MethodTimerVisitor(ClassVisitor classVisitor, boolean enable, boolean costAll) {
+    public MethodTimerVisitor(ClassVisitor classVisitor, MethodTimerConfig config) {
         super(Opcodes.ASM5, classVisitor);
-        this.enable = enable;
-        this.costAll = costAll;
+        this.config = config;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class MethodTimerVisitor extends ClassVisitor {
             }
 
             private boolean isInject() {
-                return enable && (costAll || inject);
+                return config.enable && (config.all || inject);
             }
 
             @Override

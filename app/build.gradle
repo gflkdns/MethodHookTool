@@ -1,7 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'miqt.plugin.tools'
 
-
+methodtimer {
+    enable = true
+    all = true
+    printLog = false
+}
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.0'

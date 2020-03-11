@@ -7,5 +7,5 @@ public interface Inject {
 
     byte[] injectClass(byte[] file);
 
-    File injectJar(File file);
+    File injectJar(File file, File tempDir);
 }

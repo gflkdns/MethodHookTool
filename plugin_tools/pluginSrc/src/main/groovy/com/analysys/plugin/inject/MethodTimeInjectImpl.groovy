@@ -52,14 +52,14 @@ public class MethodTimeInjectImpl implements Inject {
     }
 
     @Override
-    File injectJar(File jarFile) {
+    File injectJar(File jarFile, File tempDir) {
         /**
          * 读取原jar
          */
         def file = new JarFile(jarFile)
         /** 设置输出到的jar */
         def hexName = DigestUtils.md5Hex(jarFile.absolutePath).substring(0, 8)
-        def outputJar = new File(jarFile.getParentFile(), hexName + jarFile.name)
+        def outputJar = new File(tempDir, hexName + jarFile.name)
         JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(outputJar))
         Enumeration enumeration = file.entries()
         while (enumeration.hasMoreElements()) {
@@ -67,7 +67,6 @@ public class MethodTimeInjectImpl implements Inject {
             InputStream inputStream = file.getInputStream(jarEntry)
 
             String entryName = jarEntry.getName()
-            String className
 
             ZipEntry zipEntry = new ZipEntry(entryName)
 
@@ -75,11 +74,9 @@ public class MethodTimeInjectImpl implements Inject {
 
             byte[] modifiedClassBytes = null
             byte[] sourceClassBytes = IOUtils.toByteArray(inputStream)
-            if (entryName.endsWith(".class")) {
-                className = entryName.replace(".class", "")
-                if (isInjectImpl(className)) {
-                    modifiedClassBytes = injectClass(sourceClassBytes)
-                }
+            if (isInjectImpl(entryName)) {
+                modifiedClassBytes = injectClass(sourceClassBytes)
+                println("jar " + entryName + "-----")
             }
             if (modifiedClassBytes == null) {
                 jarOutputStream.write(sourceClassBytes)

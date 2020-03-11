@@ -66,7 +66,7 @@ class MethodTimerTransform extends Transform {
             println 'class inject finish.'
 
             println 'jar inject start.'
-            eachJar(input, impl, outputProvider)
+            eachJar(context, input, impl, outputProvider)
             println 'jar inject finish.'
         }
 
@@ -75,15 +75,18 @@ class MethodTimerTransform extends Transform {
         println '//================================================//'
     }
 
-    private List eachJar(TransformInput input, MethodTimeInjectImpl impl, outputProvider) {
+    private List eachJar(Context context, TransformInput input, MethodTimeInjectImpl impl, outputProvider) {
         input.jarInputs.each { JarInput jarInput ->
             def jarName = jarInput.name
-            println jarName + ' is changing...'
+
             def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
 
-//            File file = impl.injectJar(jarInput.file)
-//            jarInput.file.delete()
-//            FileUtils.copyFile(file, jarInput.file)
+            File file = impl.injectJar(jarInput.file, context.getTemporaryDir())
+
+//            if (file != null) {
+//                jarInput.file.delete()
+//                FileUtils.copyFile(file, jarInput.file)
+//            }
 
             if (jarName.endsWith(".jar")) {
                 jarName = jarName.substring(0, jarName.length() - 4)
@@ -91,7 +94,7 @@ class MethodTimerTransform extends Transform {
             def dest = outputProvider.getContentLocation(jarName + md5Name,
                     jarInput.contentTypes, jarInput.scopes, Format.JAR)
 
-            FileUtils.copyFile(jarInput.file, dest)
+            FileUtils.copyFile(file, dest)
         }
     }
 

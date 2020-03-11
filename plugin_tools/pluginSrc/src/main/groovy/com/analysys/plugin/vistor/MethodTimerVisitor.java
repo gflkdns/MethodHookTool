@@ -10,6 +10,8 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
 
+import java.util.regex.Pattern;
+
 /**
  * @Copyright 2019 analysys Inc. All rights reserved.
  * @Description: 方法耗时统计插桩器
@@ -73,7 +75,27 @@ public class MethodTimerVisitor extends ClassVisitor {
             }
 
             private boolean isInject() {
-                return config.isEnable() && (config.isAll() || inject);
+                if (!config.isEnable()) {
+                    return false;
+                }
+                if (config.isAll()) {
+                    return true;
+                }
+                if (inject) {
+                    return true;
+                }
+                for (String value : config.getClassRegexs()) {
+                    if (Pattern.matches(value, classname)) {
+                        return true;
+                    }
+                }
+                for (String value : config.getMethodRegexs()) {
+                    if (Pattern.matches(value, name)) {
+                        return true;
+                    }
+                }
+
+                return false;
             }
 
             @Override

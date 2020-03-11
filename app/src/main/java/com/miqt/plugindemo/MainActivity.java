@@ -28,6 +28,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        String text = "你好！";
+        String text = Hello.getStr();
     }
 }

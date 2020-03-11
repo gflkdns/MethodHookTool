@@ -2,6 +2,7 @@ package com.analysys.plugin.config
 
 import org.json.simple.JSONObject
 
+
 class MethodTimerConfig {
     //是否启用
     boolean enable = true
@@ -13,7 +14,7 @@ class MethodTimerConfig {
     boolean mapping = true
     //jar包 名称 正则表达式,不设置默认不插桩jar包
     List<String> jarRegexs = []
-    //类名称 正则表达式
+    //类名称 正则表达式,class全名
     List<String> classRegexs = []
     //方法名称 正则表达式
     List<String> methodRegexs = []
@@ -29,14 +30,14 @@ class MethodTimerConfig {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.putOpt("enable", enable);
-            jsonObject.putOpt("all", all);
-            jsonObject.putOpt("log", log);
-            jsonObject.putOpt("mapping", mapping);
-            jsonObject.putOpt("jarRegexs", jarRegexs);
-            jsonObject.putOpt("classRegexs", classRegexs);
-            jsonObject.putOpt("methodRegexs", methodRegexs);
-            jsonObject.putOpt("replaceJar", replaceJar);
+            jsonObject.put("enable", enable);
+            jsonObject.put("all", all);
+            jsonObject.put("log", log);
+            jsonObject.put("mapping", mapping);
+            jsonObject.put("jarRegexs", jarRegexs);
+            jsonObject.put("classRegexs", classRegexs);
+            jsonObject.put("methodRegexs", methodRegexs);
+            jsonObject.put("replaceJar", replaceJar);
         } catch (Throwable e) {
             //JSONException
         }

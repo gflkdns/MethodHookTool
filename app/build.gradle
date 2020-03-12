@@ -2,13 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'miqt.plugin.tools'
 
 methodtimer {
-    enable = true
-    all = false
-    log = true
-    //jarRegexs = [".*"]//所有jar包
-    jarRegexs = []//不填不插桩jar包
-    classRegexs = [".*Activity.*", ".*Service.*",]//所有Activity、Service
-    methodRegexs = [".*onClick.*"]//所有onClick
+    enable = true //是否启用
+    all = false //不全部插入耗时统计
+    jarRegexs = [".*analysys.*"]//jar包名称包含analysys的
+    classRegexs = [".*",]//能访问到的所有类
+    methodRegexs = [".*onCreat.*"]//所有包含 onCreat 的方法
+    //不必要
+    log = true  //编译时是否打印log
+    replaceJar = false //是否用插桩后的jar包替换项目中的jar包
+    mapping = true //是否生成详细mapping文件
 }
 android {
     compileSdkVersion 29

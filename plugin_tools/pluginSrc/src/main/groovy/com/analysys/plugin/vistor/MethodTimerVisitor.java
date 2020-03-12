@@ -2,7 +2,9 @@ package com.analysys.plugin.vistor;
 
 
 import com.analysys.plugin.config.MethodTimerConfig;
+import com.analysys.plugin.tools.MappingPrinter;
 
+import org.gradle.api.Project;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -10,7 +12,9 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
 
+import java.io.File;
 import java.util.regex.Pattern;
+
 
 /**
  * @Copyright 2019 analysys Inc. All rights reserved.
@@ -24,16 +28,26 @@ public class MethodTimerVisitor extends ClassVisitor {
 
     String classname;
     MethodTimerConfig config;
+    Project project;
 
-    public MethodTimerVisitor(ClassVisitor classVisitor, MethodTimerConfig config) {
+    MappingPrinter mappingPrinter;
+
+    public MethodTimerVisitor(ClassVisitor classVisitor, MethodTimerConfig config, Project project) {
         super(Opcodes.ASM5, classVisitor);
         this.config = config;
+        this.project = project;
+        if (config.isMapping()) {
+            mappingPrinter = new MappingPrinter(new File(project.getBuildDir(), "/outputs/mapping/methodtimer_mapping.txt"));
+        }
     }
 
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
         classname = name.replace("/", ".");
+        if (config.isMapping()) {
+            mappingPrinter.log("[class]" + classname);
+        }
     }
 
     @Override
@@ -55,8 +69,12 @@ public class MethodTimerVisitor extends ClassVisitor {
             @Override
             protected void onMethodEnter() {
                 if (isInject()) {
-                    mv.visitLdcInsn(getName(name));
+                    String mn = getName(name);
+                    mv.visitLdcInsn(mn);
                     mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/miqt/pluginlib/tools/TimePrint", "start", "(Ljava/lang/String;)V", false);
+                    if (config.isMapping()) {
+                        mappingPrinter.log("\t[MethodEnter]" + mn);
+                    }
                 }
             }
 
@@ -86,14 +104,18 @@ public class MethodTimerVisitor extends ClassVisitor {
                 }
                 for (String value : config.getClassRegexs()) {
                     if (Pattern.matches(value, classname)) {
-                        return true;
+                        for (String mv : config.getMethodRegexs()) {
+                            if (Pattern.matches(mv, name)) {
+                                return true;
+                            }
+                        }
                     }
                 }
-                for (String value : config.getMethodRegexs()) {
-                    if (Pattern.matches(value, name)) {
-                        return true;
-                    }
-                }
+//                for (String value : config.getMethodRegexs()) {
+//                    if (Pattern.matches(value, name)) {
+//                        return true;
+//                    }
+//                }
 
                 return false;
             }
@@ -101,8 +123,12 @@ public class MethodTimerVisitor extends ClassVisitor {
             @Override
             protected void onMethodExit(int opcode) {
                 if (isInject()) {
-                    mv.visitLdcInsn(getName(name));
+                    String mn = getName(name);
+                    mv.visitLdcInsn(mn);
                     mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/miqt/pluginlib/tools/TimePrint", "end", "(Ljava/lang/String;)V", false);
+                    if (config.isMapping()) {
+                        mappingPrinter.log("\t[MethodExit]" + mn);
+                    }
                 }
             }
         };

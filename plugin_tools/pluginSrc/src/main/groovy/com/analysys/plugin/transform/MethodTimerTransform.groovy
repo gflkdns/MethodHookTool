@@ -59,7 +59,7 @@ class MethodTimerTransform extends Transform {
         if (!mtc.enable) {
             return
         }
-        MethodTimeInjectImpl impl = new MethodTimeInjectImpl()
+        MethodTimeInjectImpl impl = new MethodTimeInjectImpl(project)
         impl.setConfig(mtc)
 
         inputs.each { TransformInput input ->
@@ -68,7 +68,7 @@ class MethodTimerTransform extends Transform {
         }
 
         println '//================================================//'
-        println '//===============Method Timer success===============//'
+        println '//===============Method Timer success=============//'
         println '//================================================//'
     }
 

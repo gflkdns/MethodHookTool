@@ -28,9 +28,7 @@ public final class MappingPrinter {
     /* package */
     public MappingPrinter(File mappingFile) {
         this.mMappingFile = mappingFile;
-        if (mappingFile.exists()) {
-            mappingFile.delete();
-        }
+
         if (!mappingFile.getParentFile().exists()) {
             mappingFile.getParentFile().mkdirs();
             try {
@@ -41,16 +39,23 @@ public final class MappingPrinter {
         }
     }
 
+    public void delete() {
+        if (mMappingFile.exists()) {
+            mMappingFile.delete();
+        }
+    }
+
     public void log(String log) {
         try {
             if (writer == null) {
-                FileOutputStream outputStream = new FileOutputStream(mMappingFile);
+                FileOutputStream outputStream = new FileOutputStream(mMappingFile, true);
                 OutputStreamWriter outputStream1 = new OutputStreamWriter(outputStream);
                 writer = new BufferedWriter(outputStream1);
             }
             writer.write(log);
             writer.flush();
             writer.newLine();
+            close();
         } catch (Throwable e) {
             e.printStackTrace();
         }

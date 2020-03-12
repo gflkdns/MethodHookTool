@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'miqt.plugin.tools'
 
+stringmix{
+    enable = true
+    key = "123"
+}
 methodtimer {
     enable = true //是否启用
     all = false //不全部插入耗时统计

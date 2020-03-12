@@ -4,6 +4,7 @@ import com.analysys.plugin.config.MethodTimerConfig
 import com.analysys.plugin.config.StringMixConfig
 import com.analysys.plugin.tools.MappingPrinter
 import com.analysys.plugin.transform.MethodTimerTransform
+import com.analysys.plugin.transform.StringMixTransform
 import com.android.build.gradle.AppExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,17 +20,20 @@ class AnalysysPlugin implements Plugin<Project> {
 
         project.extensions.create("methodtimer", MethodTimerConfig)
         project.extensions.create("stringmix", StringMixConfig)
+
         def android = project.extensions.android
         boolean islib = true
         if (android instanceof AppExtension) {
             islib = false
         }
+
         android.registerTransform(new MethodTimerTransform(project, islib))
-        //  android.registerTransform(new StringMixTransform(project, islib))
+        android.registerTransform(new StringMixTransform(project, islib))
     }
 
     static void deleteMMaping(Project project) {
         new MappingPrinter(new File(project.getBuildDir(), "/outputs/mapping/methodtimer_mapping.txt")).delete()
+        new MappingPrinter(new File(project.buildDir, "/outputs/mapping/stringmix_mapping.txt")).delete()
     }
 
 

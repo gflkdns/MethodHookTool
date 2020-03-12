@@ -66,8 +66,6 @@ public class StringMixTransform extends Transform {
 
         if (config.enable) {
             mappingPrinter = new MappingPrinter(new File(project.buildDir, "/outputs/mapping/stringmix_mapping.txt"));
-            mappingPrinter.log("buildTypes=" + project.android.buildTypes)
-            mappingPrinter.log("config=" + config.toString())
         } else {
             return
         }
@@ -123,6 +121,5 @@ public class StringMixTransform extends Transform {
                 FileUtils.copyFile(jarInput.file, dest)
             }
         }
-        mappingPrinter.close()
     }
 }

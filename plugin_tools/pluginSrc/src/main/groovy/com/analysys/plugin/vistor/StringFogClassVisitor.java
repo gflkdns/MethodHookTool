@@ -30,15 +30,7 @@ import org.objectweb.asm.Opcodes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Copyright 2019 analysys Inc. All rights reserved.
- * @Description: 字符串混淆
- * @Version: 1.0
- * @Create: 2019-11-13 11:20:52
- * @author: miqt
- * @mail: miqingtang@analysys.com.cn
- */
-/* package */public class StringFogClassVisitor extends ClassVisitor {
+public class StringFogClassVisitor extends ClassVisitor {
 
     private static final String IGNORE_ANNOTATION = "Lcom/github/megatronking/stringfog/annotation/StringFogIgnore;";
     private String mFogClassName;

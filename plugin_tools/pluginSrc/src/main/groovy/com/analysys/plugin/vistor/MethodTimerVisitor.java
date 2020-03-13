@@ -16,14 +16,6 @@ import java.io.File;
 import java.util.regex.Pattern;
 
 
-/**
- * @Copyright 2019 analysys Inc. All rights reserved.
- * @Description: 方法耗时统计插桩器
- * @Version: 1.0
- * @Create: 2019-11-13 11:19:08
- * @author: miqt
- * @mail: miqingtang@analysys.com.cn
- */
 public class MethodTimerVisitor extends ClassVisitor {
 
     String classname;

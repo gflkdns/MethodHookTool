@@ -14,23 +14,9 @@
 
 package com.analysys.plugin;
 
-/**
- * @Copyright 2019 analysys Inc. All rights reserved.
- * @Description: 字符串加解密
- * @Version: 1.0
- * @Create: 2019-11-13 11:19:54
- * @author: miqt
- * @mail: miqingtang@analysys.com.cn
- */
 public interface IStringFog {
 
-    /**
-     * Encrypt the data by the special key.
-     *
-     * @param data The original data.
-     * @param key Encrypt key.
-     * @return The encrypted data.
-     */
+
     String encrypt(String data, String key);
 
     /**

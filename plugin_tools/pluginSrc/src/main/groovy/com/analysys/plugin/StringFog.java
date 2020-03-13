@@ -4,14 +4,6 @@ import com.analysys.plugin.tools.Base64;
 
 import java.io.UnsupportedEncodingException;
 
-/**
- * @Copyright 2019 analysys Inc. All rights reserved.
- * @Description: 字符串加密实现类
- * @Version: 1.0
- * @Create: 2019-11-13 11:20:25
- * @author: miqt
- * @mail: miqingtang@analysys.com.cn
- */
 public class StringFog {
 
 

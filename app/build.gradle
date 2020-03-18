@@ -1,20 +1,30 @@
 apply plugin: 'com.android.application'
 apply plugin: 'miqt.plugin.tools'
 
-stringmix{
-    enable = true
-    key = "123"
-}
+//stringmix {
+//    enable = false
+//    key = "123"
+//}
 methodtimer {
     enable = true //是否启用
-    all = false //不全部插入耗时统计
-    jarRegexs = [".*analysys.*"]//jar包名称包含analysys的
-    classRegexs = [".*",]//能访问到的所有类
-    methodRegexs = [".*onCreat.*"]//所有包含 onCreat 的方法
-    //不必要
-    log = true  //编译时是否打印log
-    replaceJar = false //是否用插桩后的jar包替换项目中的jar包
-    mapping = true //是否生成详细mapping文件
+    //项目中的class true：全部插桩 false：只有注解插桩
+    all = true
+
+    //指定插桩那些外部引用的jar，默认空，表示只对项目中的class插桩
+    jarRegexs = [".*androidx.*"]
+    //指定插桩那些类文件，默认空
+    classRegexs = [".*view.*"]
+    //所有包含 on 的方法,所有构造方法
+    methodRegexs = [".*on.*", ".*init.*"]
+
+    //编译时是否打印log
+    log = true
+    //是否用插桩后的jar包替换项目中的jar包，慎用
+    replaceJar = false
+    //是否生成详细mapping文件
+    mapping = true
+    //自定义方法统计实现类,不指定默认使用自带实现方式
+    //impl = "com.miqt.plugindemo.MyTimeP"
 }
 android {
     compileSdkVersion 29
@@ -43,6 +53,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    implementation 'com.miqt.plugin.tools:pluginlib:1.2'
+    implementation 'me.miqt.plugin.tools:pluginlib:0.0.4'
 }
 

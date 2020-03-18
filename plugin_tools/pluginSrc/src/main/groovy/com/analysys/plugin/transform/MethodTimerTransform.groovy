@@ -78,22 +78,27 @@ class MethodTimerTransform extends Transform {
 
             def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
             def file = jarInput.file
-            mtc.jarRegexs.each { def regexStr ->
-                def isM = Pattern.matches(regexStr, jarName)
-                if (isM) {
-                    if (mtc.log) {
-                        println("[jar][regex]:$regexStr $jarName is injected.")
+
+            if (impl.config.impl != null && !"".equals(impl.config.impl) &&
+                    jarName.contains("me.miqt.plugin.tools:pluginlib")) {
+                file = impl.injectSelfJar(jarInput.file, context.getTemporaryDir())
+            } else {
+                mtc.jarRegexs.each { def regexStr ->
+                    def isM = Pattern.matches(regexStr, jarName)
+                    if (isM) {
+                        if (mtc.log) {
+                            println("[jar][regex]:$regexStr $jarName is injected.")
+                        }
+                        file = impl.injectJar(jarInput.file, context.getTemporaryDir())
+                        if (mtc.replaceJar && file != null) {
+                            jarInput.file.delete()
+                            FileUtils.copyFile(file, jarInput.file)
+                        }
+                    } else if (mtc.log) {
+                        println("[jar][regex]:$regexStr $jarName not mc.")
                     }
-                    file = impl.injectJar(jarInput.file, context.getTemporaryDir())
-                    if (mtc.replaceJar && file != null) {
-                        jarInput.file.delete()
-                        FileUtils.copyFile(file, jarInput.file)
-                    }
-                } else if (mtc.log) {
-                    println("[jar][regex]:$regexStr $jarName not mc.")
                 }
             }
-
 
             if (jarName.endsWith(".jar")) {
                 jarName = jarName.substring(0, jarName.length() - 4)

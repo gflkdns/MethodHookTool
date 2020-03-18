@@ -20,6 +20,7 @@ class MethodTimerConfig {
     List<String> methodRegexs = []
     //是否用插桩后的jar包替换项目中的jar包
     boolean replaceJar = false
+    String impl = ""
 
 
     @Override

@@ -83,6 +83,6 @@ dependencies {
 
 这个插件是借鉴了很多大佬的代码，并结合自己的想法进行了一些调整，在此感谢他们付出的努力。
 
-> https://github.com/novoda/bintray-release
-> https://github.com/JeasonWong/CostTime
-> https://github.com/MegatronKing/StringFog
+> https://github.com/novoda/bintray-release  
+> https://github.com/JeasonWong/CostTime  
+> https://github.com/MegatronKing/StringFog  

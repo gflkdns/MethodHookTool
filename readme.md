@@ -35,6 +35,20 @@
 
 可以看出，这样的话方法名，运行线程，和耗时情况就都一目了然啦。
 
+也支持注解指定固定的方法 @PrintTime：
+
+```java
+@PrintTime
+public static String getStr() {
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    return "hello";
+}
+```
+
 ## 使用方法：
 
 项目根目录：build.gradle 添加以下代码

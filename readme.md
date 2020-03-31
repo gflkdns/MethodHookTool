@@ -55,7 +55,7 @@ public static String getStr() {
 
 ```groovy
 dependencies {
-    classpath 'me.miqt.plugin.tools:pluginSrc:x.x.x'
+    classpath 'me.miqt.plugin.tools:pluginSrc:0.1.1'
 }
 ```
 
@@ -91,7 +91,7 @@ methodtimer {
 
 ```groovy
 dependencies {
-    implementation 'me.miqt.plugin.tools:pluginlib:x.x.x'
+    implementation 'me.miqt.plugin.tools:pluginlib:0.1.1'
 }
 ```
 

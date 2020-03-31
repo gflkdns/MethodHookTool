@@ -9,6 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SampleTimePrint implements ITimePrint {
     private static ThreadLocal<Map> local = new ThreadLocal<>();
+    private static final String LINE = "======================================================================================";
+
+    public static int d = 30, i = 100, w = 300, e = 500;
 
     @Override
     public void onMethodEnter(String name) {
@@ -41,39 +44,36 @@ public class SampleTimePrint implements ITimePrint {
                 local.remove();
             }
             long time = SystemClock.elapsedRealtime() - data.time;
-            if (time <= 30) {
+            if (time <= d) {
                 return;
             }
+            StringBuilder msgBuilder = new StringBuilder(16 * 10)
+                    .append(" ")
+                    .append("\n╔").append(LINE)
+                    .append("\n║[Thread]:").append(Thread.currentThread().getName())
+                    .append("\n║[Method]:").append(formatName(name))
+                    .append("\n║[TimeCo]:").append(time).append(" ms")
+                    .append("\n╚").append(LINE);
+            String msg = msgBuilder.toString();
 
-            if (time <= 100) {
-                Log.d("TimePrint",
-                        " \n╔======================================================================================" +
-                                "\n║[Thread]:" + Thread.currentThread().getName() +
-                                "\n║[Method]:" + name +
-                                "\n║[Time]:" + time
-                                + "\n╚======================================================================================");
-            } else if (time <= 300) {
-                Log.i("TimePrint",
-                        " \n╔======================================================================================" +
-                                "\n║[Thread]:" + Thread.currentThread().getName() +
-                                "\n║[Method]:" + name +
-                                "\n║[Time]:" + time
-                                + "\n╚======================================================================================");
-            } else if (time <= 500) {
-                Log.w("TimePrint",
-                        " \n╔======================================================================================" +
-                                "\n║[Thread]:" + Thread.currentThread().getName() +
-                                "\n║[Method]:" + name +
-                                "\n║[Time]:" + time
-                                + "\n╚======================================================================================");
+
+            if (time <= i) {
+                Log.d("TimePrint", msg);
+            } else if (time <= w) {
+                Log.i("TimePrint", msg);
+            } else if (time <= e) {
+                Log.w("TimePrint", msg);
             } else {
-                Log.e("TimePrint",
-                        " \n╔======================================================================================" +
-                                "\n║[Thread]:" + Thread.currentThread().getName() +
-                                "\n║[Method]:" + name +
-                                "\n║[Time]:" + time
-                                + "\n╚======================================================================================");
+                Log.e("TimePrint", msg);
             }
+        }
+    }
+
+    private String formatName(String name) {
+        if (name.length() <= LINE.length() - 9) {
+            return name;
+        } else {
+            return name.substring(0, LINE.length() - 9) + "\n║         " + formatName(name.substring(LINE.length()));
         }
     }
 

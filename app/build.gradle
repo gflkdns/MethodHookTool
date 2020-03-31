@@ -53,6 +53,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    implementation 'me.miqt.plugin.tools:pluginlib:0.0.4'
+    implementation 'me.miqt.plugin.tools:pluginlib:0.1.3'
 }
 

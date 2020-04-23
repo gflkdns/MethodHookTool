@@ -6,30 +6,40 @@
 
 统计项目中所有activity的方法耗时情况：
 
+
 ```
-2020-03-18 16:09:11.540 23078-23078/? D/TimePrint:  
+2020-04-23 17:38:47.178 26336-26336/? D/TimePrint:  
     ╔======================================================================================
     ║[Thread]:main
-    ║[Method]:androidx.appcompat.app.AppCompatDelegateImpl.ensureSubDecor() type:void
-    ║[Time]:84
+    ║[This]:com.miqt.plugindemo.MainActivity@6f59be3
+    ║[Class]:com.miqt.plugindemo.MainActivity
+    ║[Method]:onCreate
+    ║[Return]:void
+    ║[ArgsType]:[android.os.Bundle]
+    ║[ArgsValue]:[null]
+    ║[Time]:80 ms
     ╚======================================================================================
-2020-03-18 16:09:11.575 23078-23078/? I/TimePrint:  
+2020-04-23 17:38:54.899 26336-26384/com.miqt.plugindemo E/TimePrint:  
     ╔======================================================================================
-    ║[Thread]:main
-    ║[Method]:androidx.appcompat.app.AppCompatDelegateImpl.setContentView(int) type:void
-    ║[Time]:118
+    ║[Thread]:Thread-3
+    ║[This]:null
+    ║[Class]:com.miqt.plugindemo.Hello
+    ║[Method]:getStr
+    ║[Return]:java.lang.String
+    ║[ArgsType]:[java.lang.String]
+    ║[ArgsValue]:[hello word!]
+    ║[Time]:1001 ms
     ╚======================================================================================
-2020-03-18 16:09:11.575 23078-23078/? I/TimePrint:  
+2020-04-23 17:38:54.900 26336-26384/com.miqt.plugindemo E/TimePrint:  
     ╔======================================================================================
-    ║[Thread]:main
-    ║[Method]:androidx.appcompat.app.AppCompatActivity.setContentView(int) type:void
-    ║[Time]:118
-    ╚======================================================================================
-2020-03-18 16:09:11.575 23078-23078/? I/TimePrint:  
-    ╔======================================================================================
-    ║[Thread]:main
-    ║[Method]:com.miqt.plugindemo.MainActivity.onCreate(android.os.Bundle) type:void
-    ║[Time]:142
+    ║[Thread]:Thread-3
+    ║[This]:com.miqt.plugindemo.MainActivity@6f59be3
+    ║[Class]:com.miqt.plugindemo.MainActivity
+    ║[Method]:mmm
+    ║[Return]:void
+    ║[ArgsType]:[]
+    ║[ArgsValue]:[]
+    ║[Time]:4003 ms
     ╚======================================================================================
 ```
 

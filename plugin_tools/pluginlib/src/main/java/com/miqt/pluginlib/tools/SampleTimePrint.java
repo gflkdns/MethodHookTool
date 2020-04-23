@@ -14,7 +14,13 @@ public class SampleTimePrint implements ITimePrint {
     public static int d = 30, i = 100, w = 300, e = 500;
 
     @Override
-    public void onMethodEnter(String name) {
+    public void onMethodEnter(Object o,
+                              String className,
+                              String methodName,
+                              String argsType,
+                              String returnType,
+                              Object... args) {
+        String name = className + methodName + returnType + argsType;
         if (local.get() == null) {
             local.set(new HashMap<>(16));
         }
@@ -30,7 +36,13 @@ public class SampleTimePrint implements ITimePrint {
     }
 
     @Override
-    public void onMethodReturn(String name) {
+    public void onMethodReturn(Object o,
+                               String className,
+                               String methodName,
+                               String argsType,
+                               String returnType,
+                               Object... args) {
+        String name = className + methodName + returnType + argsType;
         Map map = local.get();
         SampleTimePrint.InnerClass data = (SampleTimePrint.InnerClass) map.get(name);
         if (data == null || data.time == null) {
@@ -51,8 +63,13 @@ public class SampleTimePrint implements ITimePrint {
                     .append(" ")
                     .append("\n╔").append(LINE)
                     .append("\n║[Thread]:").append(Thread.currentThread().getName())
-                    .append("\n║[Method]:").append(formatName(name))
-                    .append("\n║[TimeCo]:").append(time).append(" ms")
+                    .append("\n║[This]:").append(String.valueOf(o))
+                    .append("\n║[Class]:").append(className)
+                    .append("\n║[Method]:").append(methodName)
+                    .append("\n║[Return]:").append(returnType)
+                    .append("\n║[ArgsType]:").append(argsType)
+                    .append("\n║[ArgsValue]:").append(getArgsValue(args))
+                    .append("\n║[Time]:").append(time).append(" ms")
                     .append("\n╚").append(LINE);
             String msg = msgBuilder.toString();
 
@@ -69,11 +86,25 @@ public class SampleTimePrint implements ITimePrint {
         }
     }
 
+    private String getArgsValue(Object[] args) {
+        if (args == null || args.length == 0) {
+            return "[]";
+        } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append("[");
+            for (int j = 0; j < args.length; j++) {
+                builder.append(String.valueOf(args[j]))
+                        .append(j == args.length - 1 ? ']' : ',');
+            }
+            return builder.toString();
+        }
+    }
+
     private String formatName(String name) {
         if (name.length() <= LINE.length() - 9) {
             return name;
         } else {
-            return name.substring(0, LINE.length() - 9) + "\n║         " + formatName(name.substring(LINE.length()));
+            return name.substring(0, LINE.length() - 9) + "\n║         " + formatName(name.substring(LINE.length() - 9));
         }
     }
 

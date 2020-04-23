@@ -1,7 +1,6 @@
 package com.analysys.plugin.inject
 
 import com.analysys.plugin.config.MethodTimerConfig
-import com.analysys.plugin.vistor.MethodTimerVisitor
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Project
@@ -53,7 +52,7 @@ public class MethodTimeInjectImpl implements Inject {
 
         ClassReader cr = new ClassReader(clazzBytes)
         ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
-        ClassVisitor cv = new MethodTimerVisitor(cw, config, project)
+        ClassVisitor cv = new TryCVisitor(Opcodes.ASM5, cw)
 
         cr.accept(cv, EXPAND_FRAMES)
 

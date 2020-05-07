@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        String text = Hello.getStr("hello word!");
+        try {
+            String text = String.valueOf(new Hello().add(100,200));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.analysys.plugin.inject;
+package com.analysys.plugin;
 
 import java.io.File;
 

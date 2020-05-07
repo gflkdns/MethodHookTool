@@ -1,6 +1,6 @@
-package com.analysys.plugin.inject
+package com.analysys.plugin
 
-import com.analysys.plugin.config.MethodTimerConfig
+
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Project
@@ -13,17 +13,17 @@ import java.util.zip.ZipEntry
 
 import static org.objectweb.asm.ClassReader.EXPAND_FRAMES
 
-public class MethodTimeInjectImpl implements Inject {
+public class MethodHookInjectImpl implements Inject {
 
-    MethodTimerConfig config
+    MethodHookConfig config
 
     Project project;
 
-    MethodTimeInjectImpl(Project project) {
+    MethodHookInjectImpl(Project project) {
         this.project = project
     }
 
-    void setConfig(MethodTimerConfig config) {
+    void setConfig(MethodHookConfig config) {
         this.config = config
     }
 
@@ -41,7 +41,7 @@ public class MethodTimeInjectImpl implements Inject {
 
     private boolean isInjectImpl(String name) {
         if (name.endsWith(".class") && !name.startsWith("R\$") &&
-                !"R.class".equals(name) && !"BuildConfig.class".equals(name) && !name.contains("TimePrint")) {
+                !"R.class".equals(name) && !"BuildConfig.class".equals(name) && !name.contains("MethodHookHandler")) {
             return true
         }
         return false
@@ -52,7 +52,7 @@ public class MethodTimeInjectImpl implements Inject {
 
         ClassReader cr = new ClassReader(clazzBytes)
         ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_MAXS)
-        ClassVisitor cv = new TryCVisitor(Opcodes.ASM5, cw)
+        ClassVisitor cv = new MethodHookVisitor( cw,config,project)
 
         cr.accept(cv, EXPAND_FRAMES)
 
@@ -123,7 +123,7 @@ public class MethodTimeInjectImpl implements Inject {
             byte[] modifiedClassBytes = null
             byte[] sourceClassBytes = IOUtils.toByteArray(inputStream)
 
-            if (entryName.equals("com/miqt/pluginlib/tools/TimePrint.class")) {
+            if (entryName.equals("com/miqt/pluginlib/tools/MethodHookHandler.class")) {
                 modifiedClassBytes = dump(config.impl)
             }
             if (modifiedClassBytes == null) {
@@ -139,7 +139,7 @@ public class MethodTimeInjectImpl implements Inject {
     }
 
     /**
-     * dump TimePrint
+     * dump MethodHookHandler
      * @param impl
      * @return
      * @throws Exception
@@ -151,9 +151,9 @@ public class MethodTimeInjectImpl implements Inject {
         MethodVisitor mv;
         AnnotationVisitor av0;
 
-        cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, "com/miqt/pluginlib/tools/TimePrint", null, "java/lang/Object", null);
+        cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, "com/miqt/pluginlib/tools/MethodHookHandler", null, "java/lang/Object", null);
 
-        fv = cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC, "M_PRINT", "Lcom/miqt/pluginlib/tools/ITimePrint;", null, null);
+        fv = cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL + Opcodes.ACC_STATIC, "M_PRINT", "Lcom/miqt/pluginlib/tools/IMethodHookHandler;", null, null);
         fv.visitEnd();
 
 
@@ -168,9 +168,9 @@ public class MethodTimeInjectImpl implements Inject {
 
         mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "start", "(Ljava/lang/String;)V", null, null);
         mv.visitCode();
-        mv.visitFieldInsn(Opcodes.GETSTATIC, "com/miqt/pluginlib/tools/TimePrint", "M_PRINT", "Lcom/miqt/pluginlib/tools/ITimePrint;");
+        mv.visitFieldInsn(Opcodes.GETSTATIC, "com/miqt/pluginlib/tools/MethodHookHandler", "M_PRINT", "Lcom/miqt/pluginlib/tools/IMethodHookHandler;");
         mv.visitVarInsn(Opcodes.ALOAD, 0);
-        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "com/miqt/pluginlib/tools/ITimePrint", "onMethodEnter", "(Ljava/lang/String;)V", true);
+        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "com/miqt/pluginlib/tools/IMethodHookHandler", "onMethodEnter", "(Ljava/lang/String;)V", true);
         mv.visitInsn(Opcodes.RETURN);
         mv.visitMaxs(2, 1);
         mv.visitEnd();
@@ -178,9 +178,9 @@ public class MethodTimeInjectImpl implements Inject {
 
         mv = cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "end", "(Ljava/lang/String;)V", null, null);
         mv.visitCode();
-        mv.visitFieldInsn(Opcodes.GETSTATIC, "com/miqt/pluginlib/tools/TimePrint", "M_PRINT", "Lcom/miqt/pluginlib/tools/ITimePrint;");
+        mv.visitFieldInsn(Opcodes.GETSTATIC, "com/miqt/pluginlib/tools/MethodHookHandler", "M_PRINT", "Lcom/miqt/pluginlib/tools/IMethodHookHandler;");
         mv.visitVarInsn(Opcodes.ALOAD, 0);
-        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "com/miqt/pluginlib/tools/ITimePrint", "onMethodReturn", "(Ljava/lang/String;)V", true);
+        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, "com/miqt/pluginlib/tools/IMethodHookHandler", "onMethodReturn", "(Ljava/lang/String;)V", true);
         mv.visitInsn(Opcodes.RETURN);
         mv.visitMaxs(2, 1);
         mv.visitEnd();
@@ -191,7 +191,7 @@ public class MethodTimeInjectImpl implements Inject {
         mv.visitTypeInsn(Opcodes.NEW, impl);
         mv.visitInsn(Opcodes.DUP);
         mv.visitMethodInsn(Opcodes.INVOKESPECIAL, impl, "<init>", "()V", false);
-        mv.visitFieldInsn(Opcodes.PUTSTATIC, "com/miqt/pluginlib/tools/TimePrint", "M_PRINT", "Lcom/miqt/pluginlib/tools/ITimePrint;");
+        mv.visitFieldInsn(Opcodes.PUTSTATIC, "com/miqt/pluginlib/tools/MethodHookHandler", "M_PRINT", "Lcom/miqt/pluginlib/tools/IMethodHookHandler;");
         mv.visitInsn(Opcodes.RETURN);
         mv.visitMaxs(2, 0);
         mv.visitEnd();

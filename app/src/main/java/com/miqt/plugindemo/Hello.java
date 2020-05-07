@@ -1,15 +1,13 @@
 package com.miqt.plugindemo;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.miqt.pluginlib.annotation.PrintTime;
+import com.miqt.pluginlib.annotation.HookMethod;
 
-public class Hello  extends BroadcastReceiver {
-    @PrintTime
+public class Hello extends BroadcastReceiver {
     public static String getStr() {
         try {
             Thread.sleep(1000);
@@ -19,7 +17,7 @@ public class Hello  extends BroadcastReceiver {
         return "hello";
     }
 
-    @PrintTime
+    @HookMethod
     public static String getStr(String hello) {
         try {
             Thread.sleep(1000);
@@ -28,7 +26,8 @@ public class Hello  extends BroadcastReceiver {
         }
         return "hello";
     }
-    @PrintTime
+
+    @HookMethod
     public static String getStr(int hello) {
         try {
             Thread.sleep(1000);
@@ -37,8 +36,15 @@ public class Hello  extends BroadcastReceiver {
         }
         return "hello";
     }
-    @PrintTime
-    public  String gegsfsa(int hello,boolean gfh,String fds) {
+
+    public int add(int i, int i1) throws InterruptedException {
+        int a = i + i1;
+        Thread.sleep(a);
+        return a;
+    }
+
+    @HookMethod
+    public String gegsfsa(int hello, boolean gfh, String fds) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -47,14 +53,14 @@ public class Hello  extends BroadcastReceiver {
         return "hello";
     }
 
-    @PrintTime
+    @HookMethod
     @Override
     public void onReceive(Context context, Intent intent) {
 
     }
 
-    static  class Inner {
-        @PrintTime
+    static class Inner {
+        @HookMethod
         public static String getStr() {
             try {
                 Thread.sleep(1000);
@@ -64,7 +70,7 @@ public class Hello  extends BroadcastReceiver {
             return "hello";
         }
 
-        @PrintTime
+        @HookMethod
         public static String getStr(String hello) {
 
             try {

@@ -1,15 +1,17 @@
 package com.miqt.plugindemo;
 
-import com.miqt.pluginlib.tools.ITimePrint;
 
-public class MyTimeP implements ITimePrint {
+import com.miqt.pluginlib.tools.IMethodHookHandler;
+
+public class MyTimeP implements IMethodHookHandler {
+
     @Override
     public void onMethodEnter(Object o, String s, String s1, String s2, String s3, Object... objects) {
 
     }
 
     @Override
-    public void onMethodReturn(Object o, String s, String s1, String s2, String s3, Object... objects) {
+    public void onMethodReturn(Object o, Object o1, String s, String s1, String s2, String s3, Object... objects) {
 
     }
 }

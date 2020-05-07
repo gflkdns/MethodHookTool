@@ -1,30 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'miqt.plugin.tools'
 
-//stringmix {
-//    enable = false
-//    key = "123"
-//}
-methodtimer {
+methodhook {
     enable = true //是否启用
     //项目中的class true：全部插桩 false：只有注解插桩
     all = true
-
-//    //指定插桩那些外部引用的jar，默认空，表示只对项目中的class插桩
-   // jarRegexs = [".*analysys.*"]
-//    //指定插桩那些类文件，默认空
-   // classRegexs = [".*"]
-//    //所有包含 on 的方法,所有构造方法
-  //  methodRegexs = [".*"]
-//
-//    //编译时是否打印log
-//    log = true
-//    //是否用插桩后的jar包替换项目中的jar包，慎用
-//    replaceJar = false
-//    //是否生成详细mapping文件
-//    mapping = true
-    //自定义方法统计实现类,不指定默认使用自带实现方式
-    //impl = "com.miqt.plugindemo.MyTimeP"
 }
 android {
     compileSdkVersion 29
@@ -38,8 +18,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,6 +38,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    implementation 'me.miqt.plugin.tools:pluginlib:0.1.4'
+    implementation 'me.miqt.plugin.tools:pluginlib:0.2.0'
 }
 

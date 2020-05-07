@@ -1,7 +1,6 @@
-package com.analysys.plugin.transform
+package com.analysys.plugin
 
-import com.analysys.plugin.config.MethodTimerConfig
-import com.analysys.plugin.inject.MethodTimeInjectImpl
+
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.google.common.collect.Sets
@@ -11,19 +10,19 @@ import org.gradle.api.Project
 
 import java.util.regex.Pattern
 
-class MethodTimerTransform extends Transform {
+class MethodHookTransform extends Transform {
     Project project
     boolean islib;
-    MethodTimerConfig mtc
+    MethodHookConfig mtc
 
-    MethodTimerTransform(Project project, boolean islib) {
+    MethodHookTransform(Project project, boolean islib) {
         this.project = project
         this.islib = islib
     }
 
     @Override
     String getName() {
-        return "MethodTimer"
+        return "MethodHook"
     }
 
     @Override
@@ -54,12 +53,12 @@ class MethodTimerTransform extends Transform {
         println '//================================================//'
         println '//===============Method Timer start===============//'
         println '//================================================//'
-        mtc = project.methodtimer
+        mtc = project.methodhook
         println("[Config]:" + mtc.toString())
         if (!mtc.enable) {
             return
         }
-        MethodTimeInjectImpl impl = new MethodTimeInjectImpl(project)
+        MethodHookInjectImpl impl = new MethodHookInjectImpl(project)
         impl.setConfig(mtc)
 
         inputs.each { TransformInput input ->
@@ -72,7 +71,7 @@ class MethodTimerTransform extends Transform {
         println '//================================================//'
     }
 
-    private List eachJar(Context context, TransformInput input, MethodTimeInjectImpl impl, outputProvider) {
+    private List eachJar(Context context, TransformInput input, MethodHookInjectImpl impl, outputProvider) {
         input.jarInputs.each { JarInput jarInput ->
             def jarName = jarInput.name
 
@@ -110,7 +109,7 @@ class MethodTimerTransform extends Transform {
         }
     }
 
-    private List eachClass(TransformInput input, MethodTimeInjectImpl impl, outputProvider) {
+    private List eachClass(TransformInput input, MethodHookInjectImpl impl, outputProvider) {
         input.directoryInputs.each { DirectoryInput directoryInput ->
 
             if (directoryInput.file.isDirectory()) {

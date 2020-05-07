@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.analysys.plugin.tools;
+package com.analysys.plugin;
 
 import java.io.BufferedWriter;
 import java.io.File;

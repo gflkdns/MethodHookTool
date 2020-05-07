@@ -1,9 +1,9 @@
-package com.analysys.plugin.config
+package com.analysys.plugin
 
 import org.json.simple.JSONObject
 
 
-class MethodTimerConfig {
+class MethodHookConfig {
     //是否启用
     boolean enable = true
     //是否将所有的方法都统计，否则只统计注解和正则设置的

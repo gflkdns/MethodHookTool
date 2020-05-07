@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SampleTimePrint implements ITimePrint {
+public class SampleTimePrint implements IMethodHookHandler {
     private static ThreadLocal<Map> local = new ThreadLocal<>();
     private static final String LINE = "======================================================================================";
 
@@ -36,7 +36,8 @@ public class SampleTimePrint implements ITimePrint {
     }
 
     @Override
-    public void onMethodReturn(Object o,
+    public void onMethodReturn(Object returnObj,
+                               Object thisObj,
                                String className,
                                String methodName,
                                String argsType,
@@ -46,7 +47,7 @@ public class SampleTimePrint implements ITimePrint {
         Map map = local.get();
         SampleTimePrint.InnerClass data = (SampleTimePrint.InnerClass) map.get(name);
         if (data == null || data.time == null) {
-            Log.d("TimePrint", name + " <-- " + "not has data !");
+            Log.d("MethodHookHandler", name + " <-- " + "not has data !");
             return;
         }
 
@@ -63,25 +64,26 @@ public class SampleTimePrint implements ITimePrint {
                     .append(" ")
                     .append("\n╔").append(LINE)
                     .append("\n║[Thread]:").append(Thread.currentThread().getName())
-                    .append("\n║[This]:").append(String.valueOf(o))
                     .append("\n║[Class]:").append(className)
                     .append("\n║[Method]:").append(methodName)
-                    .append("\n║[Return]:").append(returnType)
+                    .append("\n║[This]:").append(thisObj)
                     .append("\n║[ArgsType]:").append(argsType)
                     .append("\n║[ArgsValue]:").append(getArgsValue(args))
+                    .append("\n║[Return]:").append(returnObj)
+                    .append("\n║[ReturnType]:").append(returnType)
                     .append("\n║[Time]:").append(time).append(" ms")
                     .append("\n╚").append(LINE);
             String msg = msgBuilder.toString();
 
 
             if (time <= i) {
-                Log.d("TimePrint", msg);
+                Log.d("MethodHookHandler", msg);
             } else if (time <= w) {
-                Log.i("TimePrint", msg);
+                Log.i("MethodHookHandler", msg);
             } else if (time <= e) {
-                Log.w("TimePrint", msg);
+                Log.w("MethodHookHandler", msg);
             } else {
-                Log.e("TimePrint", msg);
+                Log.e("MethodHookHandler", msg);
             }
         }
     }

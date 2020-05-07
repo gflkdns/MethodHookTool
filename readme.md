@@ -1,71 +1,43 @@
-这是一个android 方法耗时统计打印插件，可以根据包名，类名，方法正则表达式等，指定插入代码进行统计，在做性能调优的时候非常方便。能清晰的观察每个方法的耗时情况。另外还可以自定义统计实现类，增加额外的内容。
+这是一个 android 方法hook的插件，在方法进入和方法退出时，将当前运行的所有参数回调到固定的接口中，利用这一点，可以进行方法切片式开发，也可以进行一些耗时统计等性能优化相关的统计。
 
-[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)[![Download](https://api.bintray.com/packages/miqingtang/maven/pluginSrc/images/download.svg)](https://bintray.com/miqingtang/maven/pluginSrc)
+[![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Download](https://api.bintray.com/packages/miqingtang/maven/pluginSrc/images/download.svg)](https://bintray.com/miqingtang/maven/pluginSrc)
 
-## 效果展示：
-
-统计项目中所有activity的方法耗时情况：
-
-
-```
-2020-04-23 17:38:47.178 26336-26336/? D/TimePrint:  
-    ╔======================================================================================
-    ║[Thread]:main
-    ║[This]:com.miqt.plugindemo.MainActivity@6f59be3
-    ║[Class]:com.miqt.plugindemo.MainActivity
-    ║[Method]:onCreate
-    ║[Return]:void
-    ║[ArgsType]:[android.os.Bundle]
-    ║[ArgsValue]:[null]
-    ║[Time]:80 ms
-    ╚======================================================================================
-2020-04-23 17:38:54.899 26336-26384/com.miqt.plugindemo E/TimePrint:  
-    ╔======================================================================================
-    ║[Thread]:Thread-3
-    ║[This]:null
-    ║[Class]:com.miqt.plugindemo.Hello
-    ║[Method]:getStr
-    ║[Return]:java.lang.String
-    ║[ArgsType]:[java.lang.String]
-    ║[ArgsValue]:[hello word!]
-    ║[Time]:1001 ms
-    ╚======================================================================================
-2020-04-23 17:38:54.900 26336-26384/com.miqt.plugindemo E/TimePrint:  
-    ╔======================================================================================
-    ║[Thread]:Thread-3
-    ║[This]:com.miqt.plugindemo.MainActivity@6f59be3
-    ║[Class]:com.miqt.plugindemo.MainActivity
-    ║[Method]:mmm
-    ║[Return]:void
-    ║[ArgsType]:[]
-    ║[ArgsValue]:[]
-    ║[Time]:4003 ms
-    ╚======================================================================================
-```
-
-可以看出，这样的话方法名，运行线程，和耗时情况就都一目了然啦。
-
-也支持注解指定固定的方法 @PrintTime：
-
+## 效果展示
+代码：
 ```java
-@PrintTime
-public static String getStr() {
-    try {
-        Thread.sleep(1000);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-    return "hello";
+@HookMethod
+public int add(int i, int i1) throws InterruptedException {
+    int a = i + i1;
+    Thread.sleep(a);
+    return a;
 }
 ```
+日志打印：
+```
+2020-05-08 16:16:31.385 25969-26027/com.miqt.plugindemo W/MethodHookHandler:  
+╔======================================================================================
+║[Thread]:Thread-3
+║[Class]:com.miqt.plugindemo.Hello
+║[Method]:add
+║[This]:com.miqt.plugindemo.Hello@c65e5c0
+║[ArgsType]:[int, int]
+║[ArgsValue]:[100,200]
+║[Return]:300
+║[ReturnType]:int
+║[Time]:301 ms
+╚======================================================================================
+```
 
-## 使用方法：
+可以看出，这样的话方法名，运行线程，当前对象，入/出参数和耗时情况就都一目了然啦。
+
+## 使用方法
 
 项目根目录：build.gradle 添加以下代码
 
 ```groovy
 dependencies {
-    classpath 'me.miqt.plugin.tools:pluginSrc:0.1.1'
+    classpath 'me.miqt.plugin.tools:pluginSrc:0.2.0'
 }
 ```
 
@@ -74,10 +46,12 @@ dependencies {
 ```groovy
 apply plugin: 'miqt.plugin.tools'
 
-methodtimer {
+methodhook {
     enable = true //是否启用
     //项目中的class true：全部插桩 false：只有注解插桩
     all = true
+
+    // 下面是非必要配置，无特殊需求可直接删除
 
     //指定插桩那些外部引用的jar，默认空，表示只对项目中的class插桩
     jarRegexs = [".*androidx.*"]
@@ -101,7 +75,7 @@ methodtimer {
 
 ```groovy
 dependencies {
-    implementation 'me.miqt.plugin.tools:pluginlib:0.1.1'
+    implementation 'me.miqt.plugin.tools:pluginlib:0.2.0'
 }
 ```
 
@@ -110,3 +84,7 @@ dependencies {
 > https://github.com/novoda/bintray-release  
 > https://github.com/JeasonWong/CostTime  
 > https://github.com/MegatronKing/StringFog  
+
+## 目前存在的已知问题
+
+在对jar进行方法hook的时候，如果这个jar经历过混淆，则插入代码后会因为jar2dex转换失败而编译不通过。

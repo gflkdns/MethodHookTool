@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
-apply from: "../maven.gradle"
+apply from: "../buildSrc/maven.gradle"
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
 
     defaultConfig {
-        minSdkVersion 1
+        minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

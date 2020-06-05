@@ -39,6 +39,7 @@ class MethodHookConfig {
             jsonObject.put("classRegexs", classRegexs);
             jsonObject.put("methodRegexs", methodRegexs);
             jsonObject.put("replaceJar", replaceJar);
+            jsonObject.put("impl", impl);
         } catch (Throwable e) {
             //JSONException
         }

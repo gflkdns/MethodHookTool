@@ -17,7 +17,7 @@ class MethodHookVisitor extends ClassVisitor {
     MappingPrinter mappingPrinter;
 
     MethodHookVisitor(ClassVisitor classVisitor, MethodHookConfig config, Project project) {
-        super(Opcodes.ASM6, classVisitor);
+        super(Opcodes.ASM5, classVisitor);
         this.config = config;
         this.project = project;
         if (config.isMapping()) {
@@ -50,7 +50,7 @@ class MethodHookVisitor extends ClassVisitor {
 
 
         def mv = cv.visitMethod(access, name, descriptor, signature, exceptions)
-        mv = new AdviceAdapter(Opcodes.ASM6, mv, access, name, descriptor) {
+        mv = new AdviceAdapter(Opcodes.ASM5, mv, access, name, descriptor) {
 
             private boolean inject = false;
 

@@ -50,9 +50,9 @@ class MethodHookTransform extends Transform {
     void transform(Context context, Collection<TransformInput> inputs,
                    Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider,
                    boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        println '//================================================//'
-        println '//===============Method Timer start===============//'
-        println '//================================================//'
+        println '┌------------------------┐'
+        println '|      Method Hook       |'
+        println '└------------------------┘'
         mtc = project.methodhook
         println("[Config]:" + mtc.toString())
         if (!mtc.enable) {
@@ -66,9 +66,9 @@ class MethodHookTransform extends Transform {
             eachJar(context, input, impl, outputProvider)
         }
 
-        println '//================================================//'
-        println '//===============Method Timer success=============//'
-        println '//================================================//'
+        println '┌------------------------┐'
+        println '|      Method Hook  √    |'
+        println '└------------------------┘'
     }
 
     private List eachJar(Context context, TransformInput input, MethodHookInjectImpl impl, outputProvider) {
@@ -79,7 +79,7 @@ class MethodHookTransform extends Transform {
             def file = jarInput.file
 
             if (impl.config.impl != null && !"".equals(impl.config.impl) &&
-                    jarName.contains("me.miqt.plugin.tools:pluginlib")) {
+                    jarName.contains(":pluginlib")) {
                 file = impl.injectSelfJar(jarInput.file, context.getTemporaryDir())
             } else {
                 mtc.jarRegexs.each { def regexStr ->

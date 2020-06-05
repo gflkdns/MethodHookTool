@@ -2,7 +2,7 @@ apply plugin: 'maven'
 apply plugin: 'com.novoda.bintray-release'
 
 
-def maven_version = "0.2.0"
+def maven_version = "0.2.1"
 def maven_groupId = 'me.miqt.plugin.tools'
 
 //下面的version和group必须有，gradle打包的pom文件依赖这个版本号和group

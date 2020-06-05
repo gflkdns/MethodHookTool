@@ -9,7 +9,12 @@ def maven_groupId = 'me.miqt.plugin.tools'
 version = maven_version
 group = maven_groupId
 
-def maven_artifactId = project.name
+def maven_artifactId
+if (project.name == "buildSrc") {
+    maven_artifactId = "pluginSrc"
+} else {
+    maven_artifactId = project.name
+}
 
 uploadArchives {
     repositories {

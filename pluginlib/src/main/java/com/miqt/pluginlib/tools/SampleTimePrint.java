@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SampleTimePrint implements IMethodHookHandler {
     private static ThreadLocal<HashMap<String, Object>> local = new ThreadLocal<>();
-    private static final String LINE = "======================================================================================";
+    private static final String LINE = "--------------------------------------------------------------------------------------";
 
     @Override
     public void onMethodEnter(Object o,
@@ -64,17 +64,17 @@ public class SampleTimePrint implements IMethodHookHandler {
             }
             StringBuilder msgBuilder = new StringBuilder(16 * 10)
                     .append(" ")
-                    .append("\n¨X").append(LINE)
-                    .append("\n¨U[Thread]:").append(Thread.currentThread().getName())
-                    .append("\n¨U[Class]:").append(className)
-                    .append("\n¨U[Method]:").append(methodName)
-                    .append("\n¨U[This]:").append(thisObj)
-                    .append("\n¨U[ArgsType]:").append(argsType)
-                    .append("\n¨U[ArgsValue]:").append(getArgsValue(args))
-                    .append("\n¨U[Return]:").append(returnObj)
-                    .append("\n¨U[ReturnType]:").append(returnType)
-                    .append("\n¨U[Time]:").append(time).append(" ms")
-                    .append("\n¨^").append(LINE);
+                    .append("\n©°").append(LINE)
+                    .append("\n|[Thread]:").append(Thread.currentThread().getName())
+                    .append("\n|[Class]:").append(className)
+                    .append("\n|[Method]:").append(methodName)
+                    .append("\n|[This]:").append(thisObj)
+                    .append("\n|[ArgsType]:").append(argsType)
+                    .append("\n|[ArgsValue]:").append(getArgsValue(args))
+                    .append("\n|[Return]:").append(returnObj)
+                    .append("\n|[ReturnType]:").append(returnType)
+                    .append("\n|[Time]:").append(time).append(" ms")
+                    .append("\n©¸").append(LINE);
             String msg = msgBuilder.toString();
 
 
@@ -111,7 +111,7 @@ public class SampleTimePrint implements IMethodHookHandler {
         if (name.length() <= LINE.length() - 9) {
             return name;
         } else {
-            return name.substring(0, LINE.length() - 9) + "\n¨U         " + formatName(name.substring(LINE.length() - 9));
+            return name.substring(0, LINE.length() - 9) + "\n|         " + formatName(name.substring(LINE.length() - 9));
         }
     }
 

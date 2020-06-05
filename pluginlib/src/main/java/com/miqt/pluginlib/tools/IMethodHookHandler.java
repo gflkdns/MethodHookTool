@@ -5,13 +5,13 @@ package com.miqt.pluginlib.tools;
  */
 public interface IMethodHookHandler {
     /**
-     * æ–¹æ³•è¿›å…¥
+     * ·½·¨½øÈë
      *
-     * @param thisObj    æ–¹æ³•æ‰€åœ¨çš„å¯¹è±¡ï¼Œå¦‚æœæ–¹æ³•ä¸ºstaticæ–¹æ³•ï¼Œåˆ™ä¸ºnull
-     * @param className  æ–¹æ³•æ‰€åœ¨çš„ç±»å
-     * @param methodName æ–¹æ³•çš„åç§°
-     * @param returnType æ–¹æ³•çš„è¿”å›å€¼ç±»å‹
-     * @param args       æ–¹æ³•å½“å‰è¿›å…¥æ—¶ä¼ çš„å‚æ•°
+     * @param thisObj    ·½·¨ËùÔÚµÄ¶ÔÏó£¬Èç¹û·½·¨Îªstatic·½·¨£¬ÔòÎªnull
+     * @param className  ·½·¨ËùÔÚµÄÀàÃû
+     * @param methodName ·½·¨µÄÃû³Æ
+     * @param returnType ·½·¨µÄ·µ»ØÖµÀàĞÍ
+     * @param args       ·½·¨µ±Ç°½øÈëÊ±´«µÄ²ÎÊı
      */
     void onMethodEnter(Object thisObj,
                        String className,
@@ -22,14 +22,14 @@ public interface IMethodHookHandler {
     );
 
     /**
-     * æ–¹æ³•é€€å‡º
+     * ·½·¨ÍË³ö
      *
-     * @param returnObj  æ–¹æ³•è¿”å›çš„å¯¹è±¡ï¼Œå¦‚æœä¸ºvoidï¼Œåˆ™è¿”å›null
-     * @param thisObj    æ–¹æ³•æ‰€åœ¨çš„å¯¹è±¡ï¼Œå¦‚æœæ–¹æ³•ä¸ºstaticæ–¹æ³•ï¼Œåˆ™ä¸ºnull
-     * @param className  æ–¹æ³•æ‰€åœ¨çš„ç±»å
-     * @param methodName æ–¹æ³•çš„åç§°
-     * @param returnType æ–¹æ³•çš„è¿”å›å€¼ç±»å‹
-     * @param args       æ–¹æ³•å½“å‰è¿›å…¥æ—¶ä¼ çš„å‚æ•°
+     * @param returnObj  ·½·¨·µ»ØµÄ¶ÔÏó£¬Èç¹ûÎªvoid£¬Ôò·µ»Ønull
+     * @param thisObj    ·½·¨ËùÔÚµÄ¶ÔÏó£¬Èç¹û·½·¨Îªstatic·½·¨£¬ÔòÎªnull
+     * @param className  ·½·¨ËùÔÚµÄÀàÃû
+     * @param methodName ·½·¨µÄÃû³Æ
+     * @param returnType ·½·¨µÄ·µ»ØÖµÀàĞÍ
+     * @param args       ·½·¨µ±Ç°½øÈëÊ±´«µÄ²ÎÊı
      */
     void onMethodReturn(Object returnObj,
                         Object thisObj,

@@ -37,7 +37,7 @@ public int add(int i, int i1) throws InterruptedException {
 
 ```groovy
 dependencies {
-    classpath 'me.miqt.plugin.tools:pluginSrc:0.2.0'
+    classpath 'me.miqt.plugin.tools:pluginSrc:0.2.1'
 }
 ```
 
@@ -75,7 +75,7 @@ methodhook {
 
 ```groovy
 dependencies {
-    implementation 'me.miqt.plugin.tools:pluginlib:0.2.0'
+    implementation 'me.miqt.plugin.tools:pluginlib:0.2.1'
 }
 ```
 

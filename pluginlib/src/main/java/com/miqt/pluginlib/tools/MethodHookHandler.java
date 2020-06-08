@@ -10,7 +10,7 @@ public class MethodHookHandler {
     /**
      * 如果设置了impl参数，则此对象实现将被编译期替换
      */
-    private static final IMethodHookHandler M_PRINT = new SampleTimePrint();
+    private static final IMethodHookHandler M_PRINT = new SampleMethodHook();
 
     public static void enter(Object thisObj,
                              String className,

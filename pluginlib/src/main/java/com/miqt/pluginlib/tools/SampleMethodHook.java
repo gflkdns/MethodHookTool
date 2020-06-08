@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 @IgnoreMethodHook
-public class SampleTimePrint implements IMethodHookHandler {
+public class SampleMethodHook implements IMethodHookHandler {
     private static ThreadLocal<HashMap<String, Object>> local = new ThreadLocal<>();
     private static final String LINE = "══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
 
@@ -26,9 +26,9 @@ public class SampleTimePrint implements IMethodHookHandler {
             map = new HashMap<>(16);
             local.set(map);
         }
-        InnerClass data = (InnerClass) map.get(name);
+        SampleMethodHook.InnerClass data = (SampleMethodHook.InnerClass) map.get(name);
         if (data == null || data.time == null) {
-            map.put(name, new SampleTimePrint.InnerClass(SystemClock.elapsedRealtime()));
+            map.put(name, new SampleMethodHook.InnerClass(SystemClock.elapsedRealtime()));
             return;
         }
 
@@ -45,9 +45,9 @@ public class SampleTimePrint implements IMethodHookHandler {
                                Object... args) {
         String name = className + methodName + returnType + argsType;
         Map map = local.get();
-        InnerClass data = null;
+        SampleMethodHook.InnerClass data = null;
         if (map != null) {
-            data = (InnerClass) map.get(name);
+            data = (SampleMethodHook.InnerClass) map.get(name);
         }
         if (data == null || data.time == null) {
             Log.d("MethodHookHandler", name + " <-- " + "not has data !");

@@ -15,6 +15,7 @@ class MethodHookVisitor extends ClassVisitor {
     Project project;
 
     MappingPrinter mappingPrinter;
+    boolean isIgnoreMethodHook = false
 
     MethodHookVisitor(ClassVisitor classVisitor, MethodHookConfig config, Project project) {
         super(Opcodes.ASM5, classVisitor);
@@ -36,7 +37,15 @@ class MethodHookVisitor extends ClassVisitor {
     }
 
     @Override
+    AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+        isIgnoreMethodHook = descriptor == "Lcom/miqt/pluginlib/annotation/IgnoreMethodHook;"
+        return super.visitAnnotation(descriptor, visible)
+    }
+
+    @Override
     MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+        if (isIgnoreMethodHook)
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
         def isInit = name == "<init>"
         def isStaticInit = name == "<clinit>"
         def isUnImplMethod = (access & Opcodes.ACC_ABSTRACT) != 0
@@ -57,7 +66,9 @@ class MethodHookVisitor extends ClassVisitor {
             @Override
             public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                 if ("Lcom/miqt/pluginlib/annotation/HookMethod;" == desc) {
-                    inject = true;
+                    inject = true
+                } else if ("Lcom/miqt/pluginlib/annotation/IgnoreMethodHook;" == desc) {
+                    inject = false
                 }
                 return super.visitAnnotation(desc, visible);
             }

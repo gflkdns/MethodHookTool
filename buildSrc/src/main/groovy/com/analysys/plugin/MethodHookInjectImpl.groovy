@@ -29,19 +29,12 @@ public class MethodHookInjectImpl implements Inject {
 
     @Override
     public boolean isInject(File classFile) {
-
-        if (config.impl != null && !"".equals(config.impl)) {
-            if (classFile.absolutePath.contains(config.impl.replace(".", File.separator) + ".class")) {
-                println("[class]" + classFile.name + " not inject.")
-                return false
-            }
-        }
         return isInjectImpl(classFile.name)
     }
 
-    private boolean isInjectImpl(String name) {
+    private static boolean isInjectImpl(String name) {
         if (name.endsWith(".class") && !name.startsWith("R\$") &&
-                !"R.class".equals(name) && !"BuildConfig.class".equals(name) && !name.contains("MethodHookHandler")) {
+                !"R.class".equals(name) && !"BuildConfig.class".equals(name)) {
             return true
         }
         return false

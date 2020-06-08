@@ -3,8 +3,10 @@ package com.miqt.plugindemo;
 
 import android.util.Log;
 
+import com.miqt.pluginlib.annotation.IgnoreMethodHook;
 import com.miqt.pluginlib.tools.IMethodHookHandler;
 
+@IgnoreMethodHook
 public class MyTimeP implements IMethodHookHandler {
 
     @Override

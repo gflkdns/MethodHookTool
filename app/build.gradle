@@ -5,7 +5,7 @@ methodhook {
     enable = true //是否启用
     //项目中的class true：全部插桩 false：只有注解插桩
     all = true
-    impl = "com.miqt.plugindemo.MyTimeP"
+    //impl = "com.miqt.plugindemo.MyTimeP"
     jarRegexs = [".*"]
 }
 android {

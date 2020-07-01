@@ -4,16 +4,30 @@
 [![Download](https://api.bintray.com/packages/miqingtang/maven/pluginSrc/images/download.svg)](https://bintray.com/miqingtang/maven/pluginSrc)
 
 ## 效果展示
-代码：
+原始代码：
 ```java
 @HookMethod
-public int add(int i, int i1) throws InterruptedException {
-    int a = i + i1;
+public int add(int num1, int num2) throws InterruptedException {
+    int a = num1 + num2;
     Thread.sleep(a);
     return a;
 }
 ```
+
+实际编译插桩后代码：
+
+```java
+public int add(int num1, int num2) throws InterruptedException {
+    MethodHookHandler.enter(this,"com.miqt.plugindemo.Hello","add","[int, int]","int",i,i1);
+    int a = num1 + num2;
+    Thread.sleep(a);
+    MethodHookHandler.exit(a,this,"com.miqt.plugindemo.Hello","add","[int, int]","int",i,i1);
+    return a;
+}
+```
+
 日志打印：
+
 ```
 2020-05-08 16:16:31.385 25969-26027/com.miqt.plugindemo W/MethodHookHandler:  
 ╔======================================================================================

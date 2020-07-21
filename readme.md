@@ -26,7 +26,7 @@ public int add(int num1, int num2) throws InterruptedException {
 }
 ```
 
-日志打印：
+稍作开发就可以实现一个方法出入日志打印功能：
 
 ```
 2020-05-08 16:16:31.385 25969-26027/com.miqt.plugindemo W/MethodHookHandler:  
@@ -43,7 +43,7 @@ public int add(int num1, int num2) throws InterruptedException {
 ╚======================================================================================
 ```
 
-可以看出，这样的话方法名，运行线程，当前对象，入/出参数和耗时情况就都一目了然啦。
+可以看出，这样的话方法名，运行线程，当前对象，入/出参数和耗时情况就都一目了然啦。当然还可以做一些别的事情，例如hook点击事件等等。
 
 ## 使用方法
 

@@ -101,5 +101,6 @@ dependencies {
 
 ## 目前存在的已知问题
 
-1. 在对jar进行方法hook的时候，如果这个jar经历过混淆，则插入代码后会因为jar2dex转换失败而编译不通过。
-2. No such property: ASM6 for class: org.objectweb.asm.Opcodes 升级gradle版本可以解决。
+1. 在对jar进行方法hook的时候，如果这个jar经历过混淆，则插入代码后会因为jar2dex转换失败而编译不通过。--已解决
+2. No such property: ASM6 for class: org.objectweb.asm.Opcodes 升级gradle版本可以解决。--已解决
+3. 给子module插桩编译异常。--已解决

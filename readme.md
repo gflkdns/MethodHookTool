@@ -18,10 +18,10 @@ public int add(int num1, int num2) throws InterruptedException {
 
 ```java
 public int add(int num1, int num2) throws InterruptedException {
-    MethodHookHandler.enter(this,"com.miqt.plugindemo.Hello","add","[int, int]","int",i,i1);
+    MethodHookHandler.enter(this,"com.miqt.plugindemo.Hello","add","[int, int]","int",num1,num2);
     int a = num1 + num2;
     Thread.sleep(a);
-    MethodHookHandler.exit(a,this,"com.miqt.plugindemo.Hello","add","[int, int]","int",i,i1);
+    MethodHookHandler.exit(a,this,"com.miqt.plugindemo.Hello","add","[int, int]","int",num1,num2);
     return a;
 }
 ```

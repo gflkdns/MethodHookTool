@@ -10,8 +10,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 @IgnoreMethodHook
 public class SampleMethodHook implements IMethodHookHandler {
-    private static ThreadLocal<HashMap<String, Object>> local = new ThreadLocal<>();
+    private static final ThreadLocal<HashMap<String, Object>> local = new ThreadLocal<>();
     private static final String LINE = "══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════";
+
+    private LogFilter filter;
 
     @Override
     public void onMethodEnter(Object o,
@@ -20,6 +22,11 @@ public class SampleMethodHook implements IMethodHookHandler {
                               String argsType,
                               String returnType,
                               Object... args) {
+        if (filter != null) {
+            if(filter.onInvoke(Thread.currentThread(),className,methodName,o,args)){
+                return;
+            }
+        }
         String name = className + methodName + returnType + argsType;
         HashMap<String, Object> map = local.get();
         if (map == null) {
@@ -43,6 +50,11 @@ public class SampleMethodHook implements IMethodHookHandler {
                                String argsType,
                                String returnType,
                                Object... args) {
+        if (filter != null) {
+            if(filter.onInvoke(Thread.currentThread(),className,methodName,thisObj,args)){
+                return;
+            }
+        }
         String name = className + methodName + returnType + argsType;
         Map map = local.get();
         SampleMethodHook.InnerClass data = null;
@@ -115,6 +127,10 @@ public class SampleMethodHook implements IMethodHookHandler {
         } else {
             return name.substring(0, LINE.length() - 9) + "\n|         " + formatName(name.substring(LINE.length() - 9));
         }
+    }
+
+    public void setFilter(LogFilter filter) {
+        this.filter = filter;
     }
 
     @IgnoreMethodHook

@@ -10,7 +10,7 @@ import org.objectweb.asm.Type
  * @author jianglee
  * @since 16/2/2017
  */
-public final class ClassUtils {
+final class ClassUtils {
 
     private static Map<Integer, Integer> storeOps = new HashMap<Integer, Integer>()
     private static Map<Integer, Integer> loadOps = new HashMap<Integer, Integer>()
@@ -28,7 +28,7 @@ public final class ClassUtils {
         loadOps.put(Opcodes.ALOAD, 1)
     }
 
-    public static int lenOfType(Type type) {
+    static int lenOfType(Type type) {
         if (type.equals(Type.DOUBLE_TYPE)
                 || type.equals(Type.LONG_TYPE)) {
             return 2
@@ -36,7 +36,7 @@ public final class ClassUtils {
         return 1
     }
 
-    public static int lenOfOpcode(int opcode) {
+    static int lenOfOpcode(int opcode) {
         if (isStoreOp(opcode)) {
             return storeOps.get(opcode)
         } else if (isLoadOp(opcode)) {
@@ -46,20 +46,20 @@ public final class ClassUtils {
         }
     }
 
-    public static boolean isStoreOp(int opcode) {
+    static boolean isStoreOp(int opcode) {
         return storeOps.containsKey(opcode)
     }
 
-    public static boolean isLoadOp(int opcode) {
+    static boolean isLoadOp(int opcode) {
         return loadOps.containsKey(opcode)
     }
 
-    public static void checkCast(MethodVisitor mv, Type requireType) {
+    static void checkCast(MethodVisitor mv, Type requireType) {
         String className = getBoxOrUnboxClassName(requireType)
         if (null != className) {
             // auto unBox
             mv.visitTypeInsn(Opcodes.CHECKCAST, className)
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, className, getUnboxMethodName(requireType), getUnboxMethodDesc(requireType), false);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, className, getUnboxMethodName(requireType), getUnboxMethodDesc(requireType), false)
         } else {
             // check cast
             if (requireType.sort == Type.ARRAY) {
@@ -70,23 +70,23 @@ public final class ClassUtils {
         }
     }
 
-    public static void autoUnbox(MethodVisitor mv, Type requireType) {
+    static void autoUnbox(MethodVisitor mv, Type requireType) {
         String className = getBoxOrUnboxClassName(requireType)
         if (null != className) {
             // auto box
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, className, "valueOf", getBoxMethodDesc(requireType), false);
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, className, "valueOf", getBoxMethodDesc(requireType), false)
         }
     }
 
-    public static void autoBox(MethodVisitor mv, Type requireType) {
+    static void autoBox(MethodVisitor mv, Type requireType) {
         String className = getBoxOrUnboxClassName(requireType)
         if (null != className) {
             // auto box
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, className, "valueOf", getBoxMethodDesc(requireType), false);
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, className, "valueOf", getBoxMethodDesc(requireType), false)
         }
     }
 
-    public static String getBoxOrUnboxClassName(Type type) {
+    static String getBoxOrUnboxClassName(Type type) {
         String className = null
         switch (type.getSort()) {
             case Type.BOOLEAN:
@@ -125,7 +125,7 @@ public final class ClassUtils {
         return className
     }
 
-    public static String getBoxMethodDesc(Type type) {
+    static String getBoxMethodDesc(Type type) {
         String desc = null
         switch (type.getSort()) {
             case Type.BOOLEAN:
@@ -164,7 +164,7 @@ public final class ClassUtils {
         return desc
     }
 
-    public static String getUnboxMethodName(Type type) {
+    static String getUnboxMethodName(Type type) {
         String desc = null
         switch (type.getSort()) {
             case Type.BOOLEAN:
@@ -202,7 +202,7 @@ public final class ClassUtils {
         return desc
     }
 
-    public static String getUnboxMethodDesc(Type type) {
+    static String getUnboxMethodDesc(Type type) {
         String desc = null
         switch (type.getSort()) {
             case Type.BOOLEAN:

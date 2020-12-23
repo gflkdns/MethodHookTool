@@ -24,26 +24,26 @@ class MethodHookConfig {
 
 
     @Override
-    public String toString() {
+    String toString() {
         return toJson().toString()
     }
 
-    public JSONObject toJson() {
-        JSONObject jsonObject = new JSONObject();
+    JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject()
         try {
-            jsonObject.put("enable", enable);
-            jsonObject.put("all", all);
-            jsonObject.put("log", log);
-            jsonObject.put("mapping", mapping);
-            jsonObject.put("jarRegexs", jarRegexs);
-            jsonObject.put("classRegexs", classRegexs);
-            jsonObject.put("methodRegexs", methodRegexs);
-            jsonObject.put("replaceJar", replaceJar);
-            jsonObject.put("impl", impl);
+            jsonObject.put("enable", enable)
+            jsonObject.put("all", all)
+            jsonObject.put("log", log)
+            jsonObject.put("mapping", mapping)
+            jsonObject.put("jarRegexs", jarRegexs)
+            jsonObject.put("classRegexs", classRegexs)
+            jsonObject.put("methodRegexs", methodRegexs)
+            jsonObject.put("replaceJar", replaceJar)
+            jsonObject.put("impl", impl)
         } catch (Throwable e) {
             //JSONException
         }
-        return jsonObject;
+        return jsonObject
     }
 
 }

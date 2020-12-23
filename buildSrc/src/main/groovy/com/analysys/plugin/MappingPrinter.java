@@ -22,7 +22,7 @@ import java.io.OutputStreamWriter;
 
 public final class MappingPrinter {
 
-    private File mMappingFile;
+    private final File mMappingFile;
     private BufferedWriter writer;
 
     /* package */

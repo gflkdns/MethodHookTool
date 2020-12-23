@@ -12,7 +12,7 @@ import java.util.regex.Pattern
 
 class MethodHookTransform extends Transform {
     Project project
-    boolean islib;
+    boolean islib
     MethodHookConfig mtc
 
     MethodHookTransform(Project project, boolean islib) {

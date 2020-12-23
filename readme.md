@@ -67,21 +67,21 @@ methodhook {
 
     // 下面是非必要配置，无特殊需求可直接删除
 
-    //指定插桩那些外部引用的jar，默认空，表示只对项目中的class插桩
-    jarRegexs = [".*androidx.*"]
-    //指定插桩那些类文件，默认空
-    classRegexs = [".*view.*"]
-    //所有包含 on 的方法,所有构造方法
-    methodRegexs = [".*on.*", ".*init.*"]
-    
-    //编译时是否打印log
-    log = true
-    //是否用插桩后的jar包替换项目中的jar包，慎用
-    replaceJar = false
-    //是否生成详细mapping文件
-    mapping = true
-    //自定义方法统计实现类,不指定默认使用自带实现方式
-    //impl = "com.miqt.plugindemo.MyTimeP"
+    //    //指定插桩那些外部引用的jar，默认空，表示只对项目中的class插桩
+    //    jarRegexs = [".*androidx.*"]
+    //    //指定插桩那些类文件，默认空
+    //    classRegexs = [".*view.*"]
+    //    //所有包含 on 的方法,所有构造方法
+    //    methodRegexs = [".*on.*", ".*init.*"]
+    //
+    //    //编译时是否打印log
+    //    log = true
+    //    //是否用插桩后的jar包替换项目中的jar包，慎用
+    //    replaceJar = false
+    //    //是否生成详细mapping文件
+    //    mapping = true
+    //    //自定义方法统计实现类,不指定默认使用自带实现方式
+    //    //impl = "com.miqt.plugindemo.MyTimeP"
 }
 ```
 
@@ -93,14 +93,56 @@ dependencies {
 }
 ```
 
-这个插件是借鉴了很多大佬的代码，并结合自己的想法进行了一些调整，在此感谢他们付出的努力。
+这时候点击 build 就可以在控制台看到输出了：
 
+```
+┌------------------------┐
+|      Method Hook       |
+└------------------------┘
+[Config]:{"all":true,"impl":"","mapping":true,"log":true,"enable":true,"replaceJar":false,"jarRegexs":[".*"],"methodRegexs":[],"classRegexs":[]}
+[jar][regex]:.* androidx.appcompat:appcompat:1.1.0 is injected.
+[jar][regex]:.* androidx.constraintlayout:constraintlayout:1.1.3 is injected.
+[jar][regex]:.* androidx.fragment:fragment:1.1.0 is injected.
+[jar][regex]:.* androidx.appcompat:appcompat-resources:1.1.0 is injected.
+[jar][regex]:.* androidx.drawerlayout:drawerlayout:1.0.0 is injected.
+[jar][regex]:.* androidx.viewpager:viewpager:1.0.0 is injected.
+[jar][regex]:.* androidx.loader:loader:1.0.0 is injected.
+[jar][regex]:.* androidx.activity:activity:1.0.0 is injected.
+[jar][regex]:.* androidx.vectordrawable:vectordrawable-animated:1.1.0 is injected.
+[jar][regex]:.* androidx.vectordrawable:vectordrawable:1.1.0 is injected.
+[jar][regex]:.* androidx.customview:customview:1.0.0 is injected.
+[jar][regex]:.* androidx.core:core:1.1.0 is injected.
+[jar][regex]:.* androidx.cursoradapter:cursoradapter:1.0.0 is injected.
+[jar][regex]:.* androidx.versionedparcelable:versionedparcelable:1.1.0 is injected.
+[jar][regex]:.* androidx.collection:collection:1.1.0 is injected.
+[jar][regex]:.* androidx.lifecycle:lifecycle-runtime:2.1.0 is injected.
+[jar][regex]:.* androidx.lifecycle:lifecycle-viewmodel:2.1.0 is injected.
+[jar][regex]:.* androidx.savedstate:savedstate:1.0.0 is injected.
+[jar][regex]:.* androidx.interpolator:interpolator:1.0.0 is injected.
+[jar][regex]:.* androidx.lifecycle:lifecycle-livedata:2.0.0 is injected.
+[jar][regex]:.* androidx.lifecycle:lifecycle-livedata-core:2.0.0 is injected.
+[jar][regex]:.* androidx.arch.core:core-runtime:2.0.0 is injected.
+[jar][regex]:.* androidx.arch.core:core-common:2.1.0 is injected.
+[jar][regex]:.* androidx.lifecycle:lifecycle-common:2.1.0 is injected.
+[jar][regex]:.* androidx.annotation:annotation:1.1.0 is injected.
+[jar][regex]:.* androidx.constraintlayout:constraintlayout-solver:1.1.3 is injected.
+[jar][regex]:.* :pluginlib is injected.
+[jar][regex]:.* 900c6dbe31684fb656ee8cc9d146af579bae6f1f is injected.
+[class]Hello$Inner$1.class is injected.
+[class]Hello$Inner.class is injected.
+[class]Hello.class is injected.
+[class]MainActivity$1.class is injected.
+[class]MainActivity.class is injected.
+[class]MyTimeP.class is injected.
+┌------------------------┐
+|      Method Hook  √    |
+└------------------------┘
+```
+
+
+
+>  这个插件是借鉴了很多大佬的代码，并结合自己的想法进行了一些调整，在此感谢他们付出的努力。
+>
 > https://github.com/novoda/bintray-release  
 > https://github.com/JeasonWong/CostTime  
 > https://github.com/MegatronKing/StringFog  
-
-## 目前存在的已知问题
-
-1. 在对jar进行方法hook的时候，如果这个jar经历过混淆，则插入代码后会因为jar2dex转换失败而编译不通过。--已解决
-2. No such property: ASM6 for class: org.objectweb.asm.Opcodes 升级gradle版本可以解决。--已解决
-3. 给子module插桩编译异常。--已解决

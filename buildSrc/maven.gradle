@@ -1,5 +1,5 @@
 apply plugin: 'maven'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
 
 
 def maven_version = "0.2.2"

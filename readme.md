@@ -1,5 +1,5 @@
 
-这个项目已经转移到：https://github.com/miqt/android-plugin/tree/master/plugin/hook-method 更新，请访问新地址。
+这个项目已经转移到：https://github.com/miqt/android-plugin/tree/master/plugin/hook-method-plugin 更新，请访问新地址。
 
 这是一个 android 方法hook的插件，在方法进入和方法退出时，将当前运行的所有参数回调到固定的接口中，利用这一点，可以进行方法切片式开发，也可以进行一些耗时统计等性能优化相关的统计。
 
